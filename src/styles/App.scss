@@ -1,0 +1,61 @@
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  text-align: center;
+}
+
+.content{
+  width: 80vw;
+  margin: 25px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 15px;
+
+  .message{
+    color: white;
+  }
+
+  &-search{
+    width: 100%;
+    input{
+      padding: 15px;
+      width: calc(100% - 32px);
+    }
+  }
+
+  &-songs{
+    width: 100%;
+    margin-top: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &-song{
+      background-color: white;
+      padding: 15px;
+      margin: 15px;
+      border-radius: 15px;
+      text-align: center;
+      cursor: pointer;
+
+      p, h3{
+        padding: 0px;
+        margin: 0px;
+      }
+
+      p{
+        margin-top: 5px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  &-lyrics{
+    color: white;
+    font-size: 2rem;
+  }
+}
