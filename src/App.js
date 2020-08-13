@@ -10,6 +10,12 @@ import Lyrics from './components/lyrics';
 // Error messages from server
 const notFound = "Unfortunately, we are not licensed to display the full lyrics for this song at the moment. Hopefully we will be able to in the future. Until then... how about a random page?";
 
+// var test = "Hey You";
+// var test2 = "hey";
+
+// console.log(test.split(" "));
+// console.log(test2.split(" "));
+
 function App() {
 
   // Set states

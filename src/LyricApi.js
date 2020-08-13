@@ -1,5 +1,5 @@
 const axios = require('axios');
-const lastfmApiKey = ""
+const lastfmApiKey = "";
 
 const LyricAPI = {
     // Search for lyrics based on artist and song
