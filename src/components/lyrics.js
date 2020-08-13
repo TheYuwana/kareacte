@@ -5,10 +5,12 @@ import StyleUtils from '../styles/utils.module.scss'
 
 var speed = 100;
 var lyricsInterval;
-var sentenceCount = 0;
+var sentenceCount = 80;
 var finished = false;
 var newSentence = true;
 var wordCount = 0;
+
+// TODO: REDO THIS COMPLETELY, FLOW CURRENTLY DOES NOT MAKE SENSE
 
 function Lyrics() {
 
@@ -26,20 +28,29 @@ function Lyrics() {
     }
 
     const highlightLyric = (sentenceArr) => {
-        let sentenceToHiglight = sentenceArr.slice(0, wordCount).join(" ");
-        let rest = sentenceArr.slice(wordCount, sentenceArr.length).join(" ")
-        let higlighted = <><span className={StyleUtils.red}>{sentenceToHiglight}</span> {rest}</>;
-        wordCount++;
 
-        // if()
-        // setSentence((sentenceToHiglight !== "") ? higlighted : "");
-        setSentence(higlighted);
+        // Highlight words from start to finish
+        // let sentenceToHiglight = sentenceArr.slice(0, wordCount).join(" ");
+        // let rest = sentenceArr.slice(wordCount, sentenceArr.length).join(" ")
+        // let higlighted = <><span className={StyleUtils.red}>{sentenceToHiglight}</span> {rest}</>;
+        // setSentence(higlighted);
+
+        // Highlight words seperately
+        var result = sentenceArr.map((v, k) => {
+            let result = (k === wordCount) ? <><span className={StyleUtils.red}>{v}</span> </> : <>{v} </>
+            return <span key={k}>{result}</span>;
+        });
+        wordCount++;
+        setSentence(result);
     };
 
     // If the array is full, then show the lyrics based on the given interval
     if (lyrics.length > 0) {
 
         // As long as the count is below the lyrics count, then show a sentence based on the current count
+
+        console.log(`${sentenceCount} / ${lyrics.length}`)
+
         if (sentenceCount < lyrics.length && !finished) {
             if (newSentence) {
                 clearInterval(lyricsInterval);
@@ -47,27 +58,35 @@ function Lyrics() {
 
                     if (lyrics[sentenceCount] === "") {
                         newSentence = true;
-                        wordCount = 1;
+                        wordCount = 0;
                         sentenceCount++;
                         setSentence("...");
                     } else {
                         if (sentenceCount < lyrics.length) {
-                            let sentenceArr = lyrics[sentenceCount].split(" ");
                             newSentence = false;
-                            highlightLyric(sentenceArr);
+                            wordCount = 0;
+                            highlightLyric(lyrics[sentenceCount].split(" "));
+                        } else {
+                            wordCount++;
                         }
                     }
-
                 }, speed)
             } else {
 
-                let sentenceArr = lyrics[sentenceCount].split(" ");
+                let sentence = lyrics[sentenceCount].split(" ");
 
-                if (wordCount <= sentenceArr.length) {
+                console.log(`${wordCount} / ${sentence.length}`)
+
+                if (wordCount <= sentence.length) {
                     clearInterval(lyricsInterval);
                     lyricsInterval = setInterval(() => {
-                        highlightLyric(sentenceArr);
+                        if (sentenceCount < lyrics.length) {
+                            highlightLyric(lyrics[sentenceCount].split(" "));
+                        } else {
+                            wordCount++;
+                        }
                     }, speed)
+
                 } else {
                     wordCount = 0;
                     sentenceCount++;
@@ -81,6 +100,7 @@ function Lyrics() {
                 finished = true;
                 clearInterval(lyricsInterval);
                 setSentence("---- FIN ----");
+                console.log("DONE!!!!!");
             }
         }
     }
